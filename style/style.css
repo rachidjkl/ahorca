@@ -1,0 +1,46 @@
+body{
+  background-color: #2b2b2b;
+}
+
+.teclado{
+  position: absolute;
+  margin-top: 30%;
+  margin-left: 45%;
+}
+
+.letra{
+  background-color:rgba(46, 204, 113,1.0);
+  color:white;
+  border:solid #27ae60;
+  border-width:1px 1px 3px 2px;
+  font-family:Arial;
+  font-size:15px;
+  padding:15px; 
+  border-radius:4px;
+  width:70px;
+  height:70px;
+}
+.letra :hover{
+  background-color:rgba(46, 204, 113,.8);
+}
+.letra :active{
+  border-width:1px 1px 1px 1px;
+}
+
+.palabras{
+  position: absolute;
+  margin-top: 15%;
+  margin-left: 45%;
+
+}
+
+.palabra{
+  color: white;
+  font-size: 700%;
+}
+
+.imagen{
+  margin-top: 10%;
+  position: absolute;
+
+}

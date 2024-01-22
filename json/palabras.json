@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded",function(){
-const palabras = [
+[
     {
       "pista": "País",
       "palabras": [
@@ -16,7 +15,7 @@ const palabras = [
       ]
     },
     {
-      "pista": "Instrumentos Musicales",
+      "pista": "Instrumentos",
       "palabras": [
         "Guitarra",
         "Piano",
@@ -46,7 +45,7 @@ const palabras = [
       ]
     },
     {
-      "pista": "Animales de la Selva",
+      "pista": "Animales",
       "palabras": [
         "León",
         "Tigre",
@@ -61,7 +60,7 @@ const palabras = [
       ]
     },
     {
-      "pista": "Elementos de la Naturaleza",
+      "pista": "Naturaleza",
       "palabras": [
         "Sol",
         "Agua",
@@ -90,7 +89,4 @@ const palabras = [
         "Agricultor"
       ]
     }
-  ];
-});
-module.exports = palabras;
-  
+  ]

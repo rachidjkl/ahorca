@@ -28,6 +28,7 @@ body{
 }
 
 .palabras{
+  display: flex;
   position: absolute;
   margin-top: 15%;
   margin-left: 45%;
@@ -35,6 +36,7 @@ body{
 }
 
 .palabra{
+  margin-left: 10%;
   color: white;
   font-size: 700%;
 }
@@ -43,4 +45,17 @@ body{
   margin-top: 10%;
   position: absolute;
 
+}
+
+.titular{
+  margin-top: -2.1%;
+  position: absolute;
+  margin-left: 32%;
+  width: 40%;
+}
+
+.pista{
+  position: absolute;
+  margin-left: 44%;
+  font-size: 300%;
 }

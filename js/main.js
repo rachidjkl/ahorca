@@ -2,38 +2,21 @@
 document.addEventListener("DOMContentLoaded",function(){
   const miDiv = document.getElementById("palabras");
   const tablonPista = document.getElementById("pista");
-  const btnA = document.getElementById("A");
-  const btnB = document.getElementById("B");
-  const btnC = document.getElementById("C");
-  const btnD = document.getElementById("D");
-  const btnE = document.getElementById("E");
-  const btnF = document.getElementById("F");
-  const btnG = document.getElementById("G");
-  const btnH = document.getElementById("H");
-  const btnI = document.getElementById("I");
-  const btnJ = document.getElementById("J");
-  const btnK = document.getElementById("K");
-  const btnL = document.getElementById("L");
-  const btnM = document.getElementById("M");
-  const btnN = document.getElementById("N");
-  const btnO = document.getElementById("O");
-  const btnP = document.getElementById("P");
-  const btnQ = document.getElementById("Q");
-  const btnR = document.getElementById("R");
-  const btnS = document.getElementById("S");
-  const btnT = document.getElementById("T");
-  const btnU = document.getElementById("U");
-  const btnV = document.getElementById("V");
-  const btnW = document.getElementById("W");
-  const btnX = document.getElementById("X");
-  const btnY = document.getElementById("Y");
-  const btnZ = document.getElementById("Z");
-
+  const imgColgado = document.getElementById("colgado");
+  const botones = document.querySelectorAll(".letra");
+  const miModalTxt = document.getElementById('exampleModal');
+  const modalTxt = new bootstrap.Modal(miModalTxt);
+  for (const btn of botones) {
+    btn.addEventListener("click", function() {
+      console.log("clck");
+      comprobar(btn);
+    });
+  }
   var ruta = "json/palabras.json";
   var palabra;
   var pista;
 
-  var vidas = 10;
+  var vidas = 11;
 
 
   fetch(ruta)
@@ -67,25 +50,66 @@ document.addEventListener("DOMContentLoaded",function(){
     }
 
     function comprobar(btn) {
+      let correcto = false;
       var letrasPalabra = document.querySelectorAll(".palabra");
       console.log(letrasPalabra)
       letrasPalabra.forEach(function(letras) {
-        console.log(letras.value)
-        console.log(btn.value)
         if(btn.value == letras.value){
           letras.textContent = letras.value;
-          btn.style.backgroundColor = "#ff0000";
-        }else{
-          btn.style.backgroundColor = "#0000ff";
+          correcto = true;
         }
-      btn.disable = true;
       });
+      if(correcto){
+        btn.style.backgroundColor = "#0000ff";
+      }else{
+        vidas -=1;
+        cambiarImg(vidas);
+        btn.style.backgroundColor = "#ff0000";
+      }
+      btn.disable = true;
     }
 
-    btnA.addEventListener("click", function() {
-      console.log("clck");
-      comprobar(btnA);
-    });
+    function cambiarImg(vidas){
+      switch (vidas) {
+        case 0:
+            imgColgado.src = "img/ahor10.png";
+            modalTxt.show();
+            break;
+        case 1:
+            imgColgado.src = "img/ahor9.png";
+            break;
+        case 2:
+            imgColgado.src = "img/ahor8.png";
+            break;
+        case 3:
+            imgColgado.src = "img/ahor7.png";
+            break;
+        case 4:
+            imgColgado.src = "img/ahor6.png";
+            break;
+        case 5:
+            imgColgado.src = "img/ahor5.png";
+            break;
+        case 6:
+            imgColgado.src = "img/ahor4.png";
+            break;
+        case 7:
+            imgColgado.src = "img/ahor3.png";
+            break;
+        case 8:
+            imgColgado.src = "img/ahor2.png";
+            break;
+        case 9:
+            imgColgado.src = "img/ahor1.png";
+            break;
+        case 10:
+            imgColgado.src = "img/ahor0.png";
+            break;
+        default:
+            break;
+    }
+    
+    }
 
 
 });

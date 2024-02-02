@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded",function(){
   const botones = document.querySelectorAll(".letra");
   const miModalTxt = document.getElementById('exampleModal');
   const modalTxt = new bootstrap.Modal(miModalTxt);
+  const miModalGanar = document.getElementById('ganarModal');
+  const modalGanar = new bootstrap.Modal(miModalGanar);
   for (const btn of botones) {
     btn.addEventListener("click", function() {
       console.log("clck");
@@ -15,8 +17,10 @@ document.addEventListener("DOMContentLoaded",function(){
   var ruta = "json/palabras.json";
   var palabra;
   var pista;
-
+  var correctas; 
   var vidas = 11;
+
+
 
 
   fetch(ruta)
@@ -36,6 +40,7 @@ document.addEventListener("DOMContentLoaded",function(){
       palabra = palabras[random1].palabras[random2];
       tablonPista.textContent = pista;
       console.log(pista, palabra);
+      correctas = palabra.length;
       for (let index = 0; index < palabra.length; index++) {
         let letra = document.createElement("p");
         letra.classList.add("palabra");
@@ -60,6 +65,10 @@ document.addEventListener("DOMContentLoaded",function(){
         }
       });
       if(correcto){
+        correctas-=1;
+        if (correctas == 0){
+          modalGanar.show();
+        }
         btn.style.backgroundColor = "#0000ff";
       }else{
         vidas -=1;
@@ -68,6 +77,24 @@ document.addEventListener("DOMContentLoaded",function(){
       }
       btn.disable = true;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function cambiarImg(vidas){
       switch (vidas) {

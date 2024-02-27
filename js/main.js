@@ -14,39 +14,110 @@ document.addEventListener("DOMContentLoaded", function () {
   var correctas;
   var vidas = 11;
 
-
-
-
-  const letras = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
-    'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
-  const container = document.getElementById('teclado');
-  letras.forEach(letra => {
-    const button = document.createElement('button');
-    button.className = 'letra';
-    button.type = 'button';
-    button.value = letra;
-    button.id = letra;
-    button.textContent = letra;
-    container.appendChild(button);
-    button.addEventListener("click", function () {
-      console.log("clck");
-      comprobar(button);
-    });
-  });
+  
+  cargarPartida();
   
 
+  function cargarPartida() {
+    loadBotones();
+    palabra = localStorage.getItem('palabra');
+    pista = localStorage.getItem('pista');
+    vidas = localStorage.getItem('vidas');
+    correctas = localStorage.getItem('correctas');
 
+    if (palabra == null) {
+      fetch(ruta)
+      .then(response => response.json())
+      .then(data => {
+        palabras = data
+        console.log('Objeto "palabras":', palabras);
+        cargarPalabraRandom(palabras);
+      })
+      .catch(error => console.error('Error al cargar el JSON:', error));
+    } else {
+      loadEstadoPalabra();
+      tablonPista.textContent = pista;
+    }
+  }
 
+  
 
-  fetch(ruta)
-    .then(response => response.json())
-    .then(data => {
-      palabras = data
-      console.log('Objeto "palabras":', palabras);
-      cargarPalabraRandom(palabras);
+  function saveBotones() {
+    const botonesList = [];
+    const botones = document.querySelectorAll('.letra');
+    botones.forEach(elemento => {
+      botonesList.push(elemento.outerHTML);
+    });
+    localStorage.setItem('botonesList', JSON.stringify(botonesList));
+  }
+
+  function savePista() {
+    localStorage.setItem('pista', pista);
+  }
+
+  function savePalabra() {
+    localStorage.setItem('palabra', palabra);
+  }
+
+  function saveVidas() {
+    localStorage.setItem('vidas', vidas);
+    localStorage.setItem('correctas', correctas);
+  }
+
+  function saveEstadoPalabra() {
+    const lertrasList = [];
+    const letras = document.querySelectorAll(".palabra");
+    console.log(letras);
+    letras.forEach(elemento => {
+      lertrasList.push(elemento.outerHTML);
+    });
+    localStorage.setItem('letrasList', JSON.stringify(lertrasList));
+  }
+
+  function loadEstadoPalabra() {
+    const letras = JSON.parse(localStorage.getItem('letrasList')) || [];
+    const container = document.getElementById('palabras');  
+    container.innerHTML = "";
+    letras.forEach(element => {
+      container.innerHTML += element; 
     })
-    .catch(error => console.error('Error al cargar el JSON:', error));
+  }
+
+  function loadBotones() {
+     
+    const botones = JSON.parse(localStorage.getItem('botonesList')) || [];
+    if (botones.length === 0) {
+      creatBotones();
+    }else{
+      const container = document.getElementById('teclado');  
+      container.innerHTML = "";
+      botones.forEach(element => {
+        container.innerHTML += element; 
+      });
+      cargarEvntosBotones();
+    }
+  }
+
+  function cargarEvntosBotones() {
+    var botones = document.querySelectorAll(".letra");
+    botones.forEach(function(boton) {
+        boton.addEventListener("click", function() {
+          console.log("clck");
+          comprobar(boton);
+          saveBotones();
+          saveVidas();
+          saveEstadoPalabra();
+        });
+    });
+  }
+
+  
+
+  
+  
+  
+  
+  
 
 
   function cargarPalabraRandom(palabras) {
@@ -56,6 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
     palabra = palabras[random1].palabras[random2];
     tablonPista.textContent = pista;
     console.log(pista, palabra);
+    savePista();
+    savePalabra();
     correctas = palabra.length;
     for (let index = 0; index < palabra.length; index++) {
       let letra = document.createElement("p");
@@ -68,6 +141,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function generarNumeroAleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  
+
+
+  function creatBotones() {
+    const letras = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+    'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+  const container = document.getElementById('teclado');
+  letras.forEach(letra => {
+    const button = document.createElement('button');
+    button.className = 'letra';
+    button.type = 'button';
+    button.value = letra;
+    button.id = letra;
+    button.textContent = letra;
+    container.appendChild(button);
+    button.addEventListener("click", function () {
+      comprobar(button);
+      saveBotones();
+      saveVidas();
+      saveEstadoPalabra();
+    });
+  });
   }
 
   function comprobar(btn) {

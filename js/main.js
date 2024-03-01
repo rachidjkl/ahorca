@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const miDiv = document.getElementById("palabras");
   const tablonPista = document.getElementById("pista");
-  const imgColgado = document.getElementById("colgado");
   const botones = document.querySelectorAll(".letra");
   const miModalTxt = document.getElementById('exampleModal');
   const modalTxt = new bootstrap.Modal(miModalTxt);
@@ -12,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var palabra;
   var pista;
   var correctas;
-  var vidas = 11;
+  var vidas;
 
   
   cargarPartida();
@@ -22,10 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
     loadBotones();
     palabra = localStorage.getItem('palabra');
     pista = localStorage.getItem('pista');
-    vidas = localStorage.getItem('vidas');
+    
     correctas = localStorage.getItem('correctas');
 
     if (palabra == null) {
+      vidas = 11;
       fetch(ruta)
       .then(response => response.json())
       .then(data => {
@@ -35,6 +35,9 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(error => console.error('Error al cargar el JSON:', error));
     } else {
+      vidas = localStorage.getItem('vidas');
+      console.log(vidas);
+      cambiarImg(vidas);
       loadEstadoPalabra();
       tablonPista.textContent = pista;
     }
@@ -69,17 +72,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const letras = document.querySelectorAll(".palabra");
     console.log(letras);
     letras.forEach(elemento => {
-      lertrasList.push(elemento.outerHTML);
+      lertrasList.push(elemento.innerHTML);
     });
     localStorage.setItem('letrasList', JSON.stringify(lertrasList));
   }
 
   function loadEstadoPalabra() {
     const letras = JSON.parse(localStorage.getItem('letrasList')) || [];
+    console.log("dftrtr" + letras);
     const container = document.getElementById('palabras');  
     container.innerHTML = "";
+    let index = 0;
     letras.forEach(element => {
-      container.innerHTML += element; 
+      let letra = document.createElement("p");
+      letra.classList.add("palabra");
+      letra.textContent = element;
+      letra.value = palabra[index];
+      miDiv.appendChild(letra);
+      index++;
     })
   }
 
@@ -183,11 +193,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (correctas == 0) {
         modalGanar.show();
       }
-      btn.style.backgroundColor = "#0000ff";
+      btn.style.backgroundColor = "rgba(46, 204, 113,1.0)";
     } else {
       vidas -= 1;
       cambiarImg(vidas);
-      btn.style.backgroundColor = "#ff0000";
+      btn.style.backgroundColor = "rgb(236, 77, 77)";
     }
     btn.disable = true;
   }
@@ -211,6 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   function cambiarImg(vidas) {
+    const imgColgado = document.getElementById("colgado");
     switch (vidas) {
       case 0:
         imgColgado.src = "img/ahor10.png";
@@ -249,8 +260,5 @@ document.addEventListener("DOMContentLoaded", function () {
       default:
         break;
     }
-
   }
-
-
 });

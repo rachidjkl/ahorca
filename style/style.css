@@ -9,10 +9,11 @@ body{
 }
 
 .letra{
-  background-color:rgba(46, 204, 113,1.0);
+  margin: 1px;
+  background-color:rgb(56, 68, 236);
   color:white;
-  border:solid #27ae60;
-  border-width:1px 1px 3px 2px;
+  border:solid #e6e6e6;
+  border-width:1px 1px 1px 1px;
   font-family:Arial;
   font-size:15px;
   padding:15px; 
@@ -37,7 +38,7 @@ body{
 
 .palabra{
   margin-left: 10%;
-  color: rgb(235, 27, 27);
+  color: rgb(255, 255, 255);
   font-size: 700%;
 }
 

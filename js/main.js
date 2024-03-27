@@ -1,8 +1,14 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   const miDiv = document.getElementById("palabras");
+  const miNombreModal = document.getElementById("nombreModal");
+  const nombreModal = new bootstrap.Modal(miNombreModal);
+  const btnJugar = document.getElementById("btnJugar");
+  const inpNombre = document.getElementById("inpNombre");
+  
   const tablonPista = document.getElementById("pista");
-  const botones = document.querySelectorAll(".letra");
+  const btnVolver = document.querySelectorAll(".btnVolver");
+  const btnSalir = document.querySelectorAll(".btnSalir");
   const miModalTxt = document.getElementById('exampleModal');
   const modalTxt = new bootstrap.Modal(miModalTxt);
   const miModalGanar = document.getElementById('ganarModal');
@@ -15,7 +21,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
   
   cargarPartida();
+
+  btnVolver.forEach(function(boton) {
+    boton.addEventListener("click", function() {
+      nombre = localStorage.getItem('nombre');
+      localStorage.clear();
+      localStorage.setItem('nombre', nombre);
+      location.reload();
+    });
+  });
+
+  btnSalir.forEach(function(boton) {
+    boton.addEventListener("click", function() {
+      localStorage.clear();
+      location.reload();
+    });
+  });
+
   
+  btnJugar.addEventListener("click", function() {
+    localStorage.setItem('nombre', inpNombre.value);
+    nombreModal.hide();
+  });
+
 
   function cargarPartida() {
     loadBotones();
@@ -23,8 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
     pista = localStorage.getItem('pista');
     
     correctas = localStorage.getItem('correctas');
+    nombre = localStorage.getItem('nombre');
 
     if (palabra == null) {
+      if (nombre == null) {
+        nombreModal.show(); 
+      }
       vidas = 11;
       fetch(ruta)
       .then(response => response.json())
@@ -122,7 +154,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   
-
   
   
   
@@ -170,11 +201,16 @@ document.addEventListener("DOMContentLoaded", function () {
     button.textContent = letra;
     container.appendChild(button);
     button.addEventListener("click", function () {
+      funClick(button);
+    });
+    function funClick(button) {
       comprobar(button);
       saveBotones();
       saveVidas();
       saveEstadoPalabra();
-    });
+      button.disabled = true;
+      button.removeEventListener("click", desactivarBoton);
+    }
   });
   }
 
@@ -199,7 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
       cambiarImg(vidas);
       btn.style.backgroundColor = "rgb(236, 77, 77)";
     }
-    btn.disable = true;
   }
 
 
@@ -232,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
       case 2:
         imgColgado.src = "img/ahor8.png";
-        break;
+        break; 
       case 3:
         imgColgado.src = "img/ahor7.png";
         break;
